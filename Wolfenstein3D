@@ -1,0 +1,73 @@
+#define BUTTON_PIN 4
+#define BUZZER_PIN 8
+
+void setup() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP); // Button to GND, internal pull-up
+  pinMode(BUZZER_PIN, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(BUTTON_PIN) == LOW) { // Button pressed (LOW due to pull-up)
+    playRandomSound();
+    delay(300); // Debounce delay
+    while (digitalRead(BUTTON_PIN) == LOW); // Wait for button release
+  }
+}
+
+void playRandomSound() {
+  int sound = random(0, 6); // Pick random sound (0-5)
+  
+  switch (sound) {
+    case 0: doorOpen(); break;
+    case 1: doorClose(); break;
+    case 2: pistolShot(); break;
+    case 3: machineGun(); break;
+    case 4: playerPain(); break;
+    case 5: enemyDeath(); break;
+  }
+}
+
+// ---- Sound Effects (Same as Before) ----
+void doorOpen() {
+  for (int freq = 200; freq <= 800; freq += 10) {
+    tone(BUZZER_PIN, freq, 20);
+    delay(10);
+  }
+  noTone(BUZZER_PIN);
+}
+
+void doorClose() {
+  for (int freq = 800; freq >= 200; freq -= 10) {
+    tone(BUZZER_PIN, freq, 20);
+    delay(10);
+  }
+  noTone(BUZZER_PIN);
+}
+
+void pistolShot() {
+  tone(BUZZER_PIN, 1500, 50);
+  delay(60);
+  noTone(BUZZER_PIN);
+}
+
+void machineGun() {
+  for (int i = 0; i < 10; i++) {
+    tone(BUZZER_PIN, 800 + (i * 50), 30);
+    delay(40);
+  }
+  noTone(BUZZER_PIN);
+}
+
+void playerPain() {
+  tone(BUZZER_PIN, 300, 200);
+  delay(200);
+  noTone(BUZZER_PIN);
+}
+
+void enemyDeath() {
+  for (int freq = 1000; freq >= 200; freq -= 20) {
+    tone(BUZZER_PIN, freq, 30);
+    delay(20);
+  }
+  noTone(BUZZER_PIN);
+}
