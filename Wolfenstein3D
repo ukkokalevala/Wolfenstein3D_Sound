@@ -1,3 +1,9 @@
+//Generating Wolfenstein 3D-style sound effects 
+//(like door opening/closing, gunshots, and other retro game sounds) 
+//using an Arduino Nano and a passive buzzer. 
+//These sounds are typically simple square-wave tones with 
+//varying frequencies and durations, which are perfect for a buzzer.
+
 #define BUTTON_PIN 4
 #define BUZZER_PIN 8
 
@@ -7,6 +13,13 @@ void setup() {
 }
 
 void loop() {
+
+//Constantly checks if button is pressed (LOW signal)
+//When pressed:
+//Plays a random sound effect
+//Adds 300ms debounce delay
+//Waits until button is released before continuing
+
   if (digitalRead(BUTTON_PIN) == LOW) { // Button pressed (LOW due to pull-up)
     playRandomSound();
     delay(300); // Debounce delay
@@ -15,6 +28,9 @@ void loop() {
 }
 
 void playRandomSound() {
+//Randomly selects one of 6 sound effects (0-5)
+//Calls corresponding sound function
+
   int sound = random(0, 6); // Pick random sound (0-5)
   
   switch (sound) {
